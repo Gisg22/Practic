@@ -1,5 +1,4 @@
-﻿
-#include <iostream>
+﻿#include <iostream>
 #include <vector>
 #include <list>
 #include <algorithm>
@@ -22,7 +21,7 @@ public:
 	int GetId() const;
 	int GetDateBirthday() const;
 	string GetWork() const;
-	bool operator = (const User&us);
+	bool operator ==(const User& us);
 
 private:
 	string name_;
@@ -31,9 +30,7 @@ private:
 	int date_birthday_;
 };
 
-User::User()
-{
-}
+User::User(){}
 
 User::User(string name, int id, int date_birthday, string work) :
 	name_(name), id_(id), date_birthday_(date_birthday), work_(work)
@@ -66,7 +63,7 @@ string User::GetWork() const
 	return work_;
 }
 
-bool User::operator=(const User& us)
+bool User::operator==(const User& us)
 {
 	return (id_ == us.id_) && (date_birthday_ == us.date_birthday_) && (work_ == us.work_);
 }
@@ -77,31 +74,38 @@ ostream& operator<< (ostream& os, User& user) {
 }
 
 
-void  RemoveUser(vector <User> &user) {
-	auto result = remove_if(user.begin(), user.end(), [](const User& us) {
-		return us.GetId() < 43;
-		});
-	user.erase(result, user.end());
-} 
+void  RemoveUser(vector <User>& user) {
+	user.erase(remove_if(user.begin(), user.end(), [](const User& us) {
+		return us.GetId() < 24;
+		}), user.end());
+}
 
 int main()
 {
-	
-	User Sergey("Sergey", 43,1998,"Simple code");
-	User Vlad("Vlad", 23,2004 ,"Print dick");
-	User Temirlan("Rerror", 12,2003 ,"Wed fuck");
-	User Chehov("Chehov",432 , 2005, "Fuck Brains");
+
+	User Sergey("Sergey", 43, 1998, "Simple code");
+	User Vlad("Vlad", 23, 2004, "Print dick");
+	User Temirlan("Rerror", 12, 2003, "Wed fuck");
+	User Chehov("Chehov", 432, 2005, "Fuck Brains");
 	vector <User> user{ Sergey, Vlad, Temirlan, Chehov };
-	vector <int> nv{243, 23, 23423, 52423, 223, 2334};
+
+	vector <int> nv{ 243, 23, 23423, 52423, 223, 2334 };
+
 	auto result = remove(nv.begin(), nv.end(), 223);
+
 	nv.erase(result, nv.end());
+
 	for (auto& item : user) {
 		cout << item << endl;
 	}
-	RemoveUser(user);
+       RemoveUser(user);
+
+
+
 	cout << "Delete User: " << endl;
+
 	for (auto& item : user) {
 		cout << item << endl;
 	}
-	return 0; 
+	return 0;
 }
